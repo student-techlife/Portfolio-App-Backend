@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Post;
+use App\Project;
 use App\User;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +13,7 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function post(){
-        return $this->belongsTo(Post::class);
+    public function project(){
+        return $this->belongsTo(Project::class);
     }
 }
