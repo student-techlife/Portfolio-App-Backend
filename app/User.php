@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Comment;
-use App\Post;
+use App\Project;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -48,8 +48,8 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function posts(){
-        return $this->hasMany(Post::class);
+    public function projects(){
+        return $this->hasMany(Project::class);
     }
 
     public function comments(){
