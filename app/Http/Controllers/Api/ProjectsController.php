@@ -25,6 +25,7 @@ class ProjectsController extends Controller {
             $image = base64_decode($base64_str);
             $path = public_path() ."/projects/" . $photo;
             Image::make($image)->save($path);
+            $project->photo = $photo;
         }
         //mistake
         $project->save();
