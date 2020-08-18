@@ -13,14 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    dd("Het werkt!");
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('logout','Api\AuthController@logout');
+    Route::post('projects/create','Api\ProjectsController@create');
+});
+
+
 //user
 Route::post('login','Api\AuthController@login');
 Route::post('register','Api\AuthController@register');
-Route::get('logout','Api\AuthController@logout');
+Route::post('refresh', 'Api\AuthController@refresh');
+// Route::get('logout','Api\AuthController@logout');
 Route::post('save_user_info','Api\AuthController@saveUserInfo')->middleware('jwtAuth');
 
 //project
-Route::post('projects/create','Api\ProjectsController@create')->middleware('jwtAuth');
 Route::post('projects/delete','Api\ProjectsController@delete')->middleware('jwtAuth');
 Route::post('projects/update','Api\ProjectsController@update')->middleware('jwtAuth');
 Route::get('projects','Api\ProjectsController@projects')->middleware('jwtAuth');
