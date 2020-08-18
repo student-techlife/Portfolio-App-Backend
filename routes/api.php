@@ -19,7 +19,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout','Api\AuthController@logout');
+    
+    //project
     Route::post('projects/create','Api\ProjectsController@create');
+    Route::post('projects/delete','Api\ProjectsController@delete');
+    Route::post('projects/update','Api\ProjectsController@update');
+    Route::get('projects','Api\ProjectsController@projects');
+    Route::get('projects/my_projects','Api\ProjectsController@myProjects');
 });
 
 
@@ -29,12 +35,6 @@ Route::post('register','Api\AuthController@register');
 Route::post('refresh', 'Api\AuthController@refresh');
 // Route::get('logout','Api\AuthController@logout');
 Route::post('save_user_info','Api\AuthController@saveUserInfo')->middleware('jwtAuth');
-
-//project
-Route::post('projects/delete','Api\ProjectsController@delete')->middleware('jwtAuth');
-Route::post('projects/update','Api\ProjectsController@update')->middleware('jwtAuth');
-Route::get('projects','Api\ProjectsController@projects')->middleware('jwtAuth');
-Route::get('projects/my_projects','Api\ProjectsController@myProjects')->middleware('jwtAuth');
 
 
 //comment
