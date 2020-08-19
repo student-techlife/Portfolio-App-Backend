@@ -117,6 +117,12 @@ class AuthController extends Controller {
         // }
     }
 
+    // Gebruiker kan zijn eigen gebruikrs informatie ophalen
+    public function getUserInfo(Request $request) {
+        $user = Auth::user();
+        return $user;
+    }
+
     // this function saves user name,lastname and photo
     public function saveUserInfo(Request $request){
         $user = User::find(Auth::user()->id);
