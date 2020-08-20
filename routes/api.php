@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     dd("Het werkt!");
-// });
-
 Route::middleware('auth:api')->group(function () {
     // User
     Route::post('save_user_info','Api\AuthController@saveUserInfo');
@@ -29,15 +25,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('projects/update','Api\ProjectsController@update');
     Route::get('projects','Api\ProjectsController@projects');
     Route::get('projects/my_projects','Api\ProjectsController@myProjects');
-    
-    //comment
-    Route::post('comments/create','Api\CommentsController@create');
-    Route::post('comments/delete','Api\CommentsController@delete');
-    Route::post('comments/update','Api\CommentsController@update');
-    Route::post('projects/comments','Api\CommentsController@comments');
-
-    //like
-    Route::post('projects/like','Api\LikesController@like');
 });
 
 
