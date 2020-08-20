@@ -15,6 +15,11 @@ class ProjectsController extends Controller {
 
         $project = new Project;
         $project->user_id = Auth::user()->id;
+        $project->name = $request->name;
+        $project->website = $request->website;
+        $project->client = $request->client;
+        // $project->completion_date = $request->completion_date;
+        $project->hours = $request->hours;
         $project->desc = $request->desc;
 
         //check if project has photo
@@ -32,7 +37,7 @@ class ProjectsController extends Controller {
         $project->user;
         return response()->json([
             'success' => true,
-            'message' => 'posted',
+            'message' => 'success',
             'project' => $project
         ]);
     }
@@ -80,20 +85,8 @@ class ProjectsController extends Controller {
     public function projects(){
         $projects = Project::orderBy('id','desc')->get();
         foreach($projects as $project){
-            //get user of project
+            // get user of project
             $project->user;
-            //comments count
-            $project['commentsCount'] = count($project->comments);
-            //likes count
-            $project['likesCount'] = count($project->likes);
-            //check if users liked his own project
-            $project['selfLike'] = false;
-            foreach($project->likes as $like){
-                if($like->user_id == Auth::user()->id){
-                    $project['selfLike'] = true;
-                }
-            }
-
         }
 
         return response()->json([
