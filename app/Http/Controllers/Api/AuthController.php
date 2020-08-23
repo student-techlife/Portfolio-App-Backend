@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Image;
+use File;
 use DB;
 
 class AuthController extends Controller {
@@ -128,13 +130,17 @@ class AuthController extends Controller {
         $user = User::find(Auth::user()->id);
         $user->name = $request->name;
         $user->lastname = $request->lastname;
-        $photo = '';
+
         //check if user provided photo
-        if($request->photo!=''){
-            // user time for photo name to prevent name duplication
+        if($request->photo != ''){
+            //choose a unique name for photo
             $photo = time().'.jpg';
-            // decode photo string and save to storage/profiles
-            file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
+            $base64_str = $request->photo;
+            $image = base64_decode($base64_str);
+            $path = public_path() ."/profiles/" . $photo;
+            Image::make($image)->resize(null, 400, function($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
             $user->photo = $photo;
         }
 
