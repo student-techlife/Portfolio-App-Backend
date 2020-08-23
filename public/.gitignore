@@ -1,0 +1,6 @@
+# Ignore alles in deze folders
+profiles/*
+projects/*
+
+# Behalve deze files
+!project.jpg
