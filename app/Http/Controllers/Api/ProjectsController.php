@@ -23,14 +23,18 @@ class ProjectsController extends Controller {
         $project->desc = $request->desc;
 
         //check if project has photo
-        if($request->photo != ''){
+        if($request->photo != '') {
             //choose a unique name for photo
             $photo = time().'.png';
             $base64_str = $request->photo;
             $image = base64_decode($base64_str);
             $path = public_path() ."/projects/" . $photo;
-            Image::make($image)->save($path);
+            Image::make($image)->resize(null, 600, function($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
             $project->photo = $photo;
+        } else {
+            $projct->photo = "project.jpg";
         }
         //mistake
         $project->save();
