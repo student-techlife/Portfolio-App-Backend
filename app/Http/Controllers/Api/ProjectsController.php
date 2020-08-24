@@ -23,7 +23,7 @@ class ProjectsController extends Controller {
         $project->desc = $request->desc;
 
         //check if project has photo
-        if($request->photo != '') {
+        if($request->photo != 'empty') {
             //choose a unique name for photo
             $photo = time().'.png';
             $base64_str = $request->photo;
@@ -34,7 +34,7 @@ class ProjectsController extends Controller {
             })->save($path);
             $project->photo = $photo;
         } else {
-            $projct->photo = "project.jpg";
+            $project->photo = "project.jpg";
         }
         //mistake
         $project->save();
@@ -45,7 +45,6 @@ class ProjectsController extends Controller {
             'project' => $project
         ]);
     }
-
 
     public function update(Request $request){
         $project = Project::find($request->id);
@@ -99,8 +98,6 @@ class ProjectsController extends Controller {
         ]);
     }
 
-    
-
     public function myProjects(){
         $projects = Project::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
         $user = Auth::user();
@@ -111,6 +108,4 @@ class ProjectsController extends Controller {
         ]);
     }
 
-
 }
-
