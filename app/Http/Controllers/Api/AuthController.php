@@ -142,6 +142,9 @@ class AuthController extends Controller {
                 $constraint->aspectRatio();
             })->save($path);
             $user->photo = $photo;
+        } else {
+            // default image
+            $user->photo = "user.png";
         }
 
         $user->update();
