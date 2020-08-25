@@ -4,3 +4,4 @@ projects/*
 
 # Behalve deze files
 !project.jpg
+!user.png
