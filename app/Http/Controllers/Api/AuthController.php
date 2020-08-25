@@ -178,6 +178,7 @@ class AuthController extends Controller {
         } else {
             // default image
             $user->photo = "user.png";
+            $photo = "user.png";
         }
 
         $user->update();
