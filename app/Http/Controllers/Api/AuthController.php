@@ -113,7 +113,7 @@ class AuthController extends Controller {
 
         return response()->json([
             'success' => true,
-            'message' => 'project edited'
+            'message' => 'profile edited'
         ]);
     }
 
@@ -178,6 +178,7 @@ class AuthController extends Controller {
         } else {
             // default image
             $user->photo = "user.png";
+            $photo = "user.png";
         }
 
         $user->update();
