@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\User;
-use Illuminate\Support\Facades\Route;
-use Laravel\Passport\Client;
-use Exception;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
+use App\User;
+use Laravel\Passport\Client;
+use Exception;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Image;
 use File;
@@ -82,6 +83,38 @@ class AuthController extends Controller {
         //         'message' => ''.$e
         //     ]);
         // }
+    }
+
+    public function update(Request $request) {
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+        ]);
+
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->lastname = $request->lastname;
+
+        if($request->photo != ''){
+            $photo = time().'.jpg';
+            $base64_str = $request->photo;
+            $image = base64_decode($base64_str);
+            $path = public_path() ."/profiles/" . $photo;
+            Image::make($image)->resize(null, 400, function($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
+            $user->photo = $photo;
+        }
+
+        $user->update();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'project edited'
+        ]);
     }
 
     public function refresh(Request $request) {
