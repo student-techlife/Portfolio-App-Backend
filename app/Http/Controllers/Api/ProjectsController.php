@@ -63,6 +63,7 @@ class ProjectsController extends Controller {
         $project->name      = $request->name;
         $project->website   = $request->website;
         $project->client    = $request->client;
+        $project->completion_date = $request->completion_date;
         $project->hours     = $request->hours;
         $project->desc      = $request->desc;
 
@@ -127,7 +128,9 @@ class ProjectsController extends Controller {
 
     // Return alle projecten
     public function projects(){
-        $projects = Project::orderBy('id','desc')->get();
+        $user = Auth::user();
+        $projects = Project::orderBy('id','desc')->where('user_id', '=', $user->id)->get();
+
         foreach($projects as $project){
             // get user of project
             $project->user;
