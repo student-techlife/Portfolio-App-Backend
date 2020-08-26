@@ -29,13 +29,14 @@ class ProjectsController extends Controller {
             $base64_str = $request->photo;
             $image = base64_decode($base64_str);
             $path = public_path() ."/projects/" . $photo;
-            Image::make($image)->resize(null, 600, function($constraint) {
+            Image::make($image)->resize(null, 500, function($constraint) {
                 $constraint->aspectRatio();
             })->save($path);
             $project->photo = $photo;
         } else {
             $project->photo = "project.jpg";
         }
+
         //mistake
         $project->save();
         $project->user;
@@ -56,11 +57,46 @@ class ProjectsController extends Controller {
                 'message' => 'unauthorized access'
             ]);
         }
-        $project->desc = $request->desc;
+
+        $project->name      = $request->name;
+        $project->website   = $request->website;
+        $project->client    = $request->client;
+        $project->hours     = $request->hours;
+        $project->desc      = $request->desc;
+
+        if($request->photo == 'empty') {
+            // Geen veranderen betekent waarde blijft zoals het wat
+            $project->photo = $project->photo;
+        } elseif($request->photo == 'default') {
+            // Als request default is verwijder oude foto en toon standaard plaatje            
+            if($request->oldPhoto != 'project.jpg') {
+                File::delete( public_path()."/projects/".$request->oldPhoto);
+            }
+            $project->photo = "project.jpg";
+        } else {
+            // Upload een nieuwe foto en verwijder de oude
+
+            //check if project has photo to delete
+            if($request->oldPhoto != 'project.jpg') {
+                File::delete( public_path()."/projects/".$request->oldPhoto);
+            }
+            //choose a unique name for photo
+            $photo = time().'.png';
+            $base64_str = $request->photo;
+            $image = base64_decode($base64_str);
+            $path = public_path() ."/projects/" . $photo;
+            Image::make($image)->resize(null, 500, function($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
+            $project->photo = $photo;
+        }
+
         $project->update();
+
         return response()->json([
             'success' => true,
-            'message' => 'project edited'
+            'message' => 'project edited',
+            'project' => $project
         ]);
     }
 
@@ -75,9 +111,10 @@ class ProjectsController extends Controller {
         }
         
         //check if project has photo to delete
-        if($project->photo != '') {
+        if($project->photo != '' or $project->photo != 'project.jpg') {
             File::delete( public_path()."/projects/".$project->photo);
         }
+
         $project->delete();
         return response()->json([
             'success' => true,
