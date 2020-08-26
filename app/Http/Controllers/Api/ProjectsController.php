@@ -69,16 +69,16 @@ class ProjectsController extends Controller {
             $project->photo = $project->photo;
         } elseif($request->photo == 'default') {
             // Als request default is verwijder oude foto en toon standaard plaatje            
-            if($request->oldPhoto != 'project.jpg') {
-                File::delete( public_path()."/projects/".$request->oldPhoto);
+            if($project->photo != 'project.jpg') {
+                File::delete( public_path()."/projects/".$project->photo);
             }
             $project->photo = "project.jpg";
         } else {
             // Upload een nieuwe foto en verwijder de oude
 
             //check if project has photo to delete
-            if($request->oldPhoto != 'project.jpg') {
-                File::delete( public_path()."/projects/".$request->oldPhoto);
+            if($project->photo != 'project.jpg') {
+                File::delete( public_path()."/projects/".$project->photo);
             }
             //choose a unique name for photo
             $photo = time().'.png';
