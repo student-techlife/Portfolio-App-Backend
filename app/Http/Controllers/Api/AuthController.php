@@ -99,6 +99,11 @@ class AuthController extends Controller {
         $user->lastname = $request->lastname;
 
         if($request->photo != ''){
+
+            if($user->photo != 'user.png') {
+                File::delete( public_patch()."/profiles/".$user->photo);
+            }
+
             $photo = time().'.jpg';
             $base64_str = $request->photo;
             $image = base64_decode($base64_str);
