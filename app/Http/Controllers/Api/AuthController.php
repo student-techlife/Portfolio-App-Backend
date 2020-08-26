@@ -26,6 +26,7 @@ class AuthController extends Controller {
         $this->client = Client::find(2);
     }
 
+    // Gebruiker inloggen
     public function login(Request $request) {
 
         $validatedData = $request->validate([
@@ -51,6 +52,7 @@ class AuthController extends Controller {
         // ]);
     }
 
+    // Nieuwe gebruiker aanmaken
     public function register(Request $request) {
 
         // dd($request->all());
@@ -85,6 +87,7 @@ class AuthController extends Controller {
         // }
     }
 
+    // Gebruiker gegevens updaten
     public function update(Request $request) {
         $user = Auth::user();
 
@@ -130,6 +133,7 @@ class AuthController extends Controller {
         return $this->issueToken($request, 'refresh_token');
     }
 
+    // Gebruiker uitloggen
     public function logout(Request $request) {
         
         $accessToken = Auth::user()->token();
