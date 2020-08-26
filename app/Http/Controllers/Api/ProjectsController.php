@@ -88,7 +88,8 @@ class ProjectsController extends Controller {
 
         return response()->json([
             'success' => true,
-            'message' => 'project edited'
+            'message' => 'project edited',
+            'project' => $project
         ]);
     }
 
