@@ -128,9 +128,7 @@ class ProjectsController extends Controller {
 
     // Return alle projecten
     public function projects(){
-        $user = Auth::user();
-        $projects = Project::orderBy('id','desc')->where('user_id', '=', $user->id)->get();
-
+        $projects = Project::orderBy('id','desc')->get();
         foreach($projects as $project){
             // get user of project
             $project->user;
