@@ -104,7 +104,7 @@ class AuthController extends Controller {
         if($request->photo != ''){
 
             if($user->photo != 'user.png') {
-                File::delete( public_patch()."/profiles/".$user->photo);
+                File::delete( public_path()."/profiles/".$user->photo);
             }
 
             $photo = time().'.jpg';

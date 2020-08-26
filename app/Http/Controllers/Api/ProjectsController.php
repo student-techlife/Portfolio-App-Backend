@@ -19,7 +19,7 @@ class ProjectsController extends Controller {
         $project->name = $request->name;
         $project->website = $request->website;
         $project->client = $request->client;
-        // $project->completion_date = $request->completion_date;
+        $project->completion_date = $request->completion_date;
         $project->hours = $request->hours;
         $project->desc = $request->desc;
 
@@ -63,6 +63,7 @@ class ProjectsController extends Controller {
         $project->name      = $request->name;
         $project->website   = $request->website;
         $project->client    = $request->client;
+        $project->completion_date = $request->completion_date;
         $project->hours     = $request->hours;
         $project->desc      = $request->desc;
 
@@ -70,7 +71,7 @@ class ProjectsController extends Controller {
             // Geen veranderen betekent waarde blijft zoals het wat
             $project->photo = $project->photo;
         } elseif($request->photo == 'default') {
-            // Als request default is verwijder oude foto en toon standaard plaatje            
+            // Als request default is verwijder oude foto en toon standaard plaatje
             if($project->photo != 'project.jpg') {
                 File::delete( public_path()."/projects/".$project->photo);
             }
