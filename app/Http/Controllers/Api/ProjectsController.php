@@ -64,13 +64,22 @@ class ProjectsController extends Controller {
         $project->hours     = $request->hours;
         $project->desc      = $request->desc;
 
-        //check if project has photo to delete
-        if($request->oldPhoto != 'project.jpg') {
-            File::delete( public_path()."/projects/".$request->oldPhoto);
-        }
+        if($request->photo == 'empty') {
+            // Geen veranderen betekent waarde blijft zoals het wat
+            $project->photo = $project->photo;
+        } elseif($request->photo == 'default') {
+            // Als request default is verwijder oude foto en toon standaard plaatje            
+            if($request->oldPhoto != 'project.jpg') {
+                File::delete( public_path()."/projects/".$request->oldPhoto);
+            }
+            $project->photo = "project.jpg";
+        } else {
+            // Upload een nieuwe foto en verwijder de oude
 
-        //check if project has photo
-        if($request->photo != 'empty') {
+            //check if project has photo to delete
+            if($request->oldPhoto != 'project.jpg') {
+                File::delete( public_path()."/projects/".$request->oldPhoto);
+            }
             //choose a unique name for photo
             $photo = time().'.png';
             $base64_str = $request->photo;
@@ -80,8 +89,6 @@ class ProjectsController extends Controller {
                 $constraint->aspectRatio();
             })->save($path);
             $project->photo = $photo;
-        } else {
-            $project->photo = "project.jpg";
         }
 
         $project->update();
