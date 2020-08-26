@@ -142,8 +142,12 @@ class ProjectsController extends Controller {
 
     // Return projecten van een ingelogde gebruiker
     public function myProjects(){
-        $projects = Project::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
         $user = Auth::user();
+        $projects = Project::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
+        foreach($projects as $project){
+            // get user of project
+            $project->user;
+        }
         return response()->json([
             'success' => true,
             'projects' => $projects,
