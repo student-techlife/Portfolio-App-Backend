@@ -115,7 +115,7 @@ class ProjectsController extends Controller {
         }
         
         //check if project has photo to delete
-        if($project->photo != '' or $project->photo != 'project.jpg') {
+        if($project->photo != 'project.jpg') {
             File::delete( public_path()."/projects/".$project->photo);
         }
 
