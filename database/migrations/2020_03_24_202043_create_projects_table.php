@@ -19,7 +19,7 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->string('website')->nullable();
             $table->string('client')->nullable();
-            $table->date('completion_date')->nullable();
+            $table->string('completion_date')->nullable();
             $table->bigInteger('hours')->nullable();
             $table->longText('desc');
             $table->string('photo')->default('');
