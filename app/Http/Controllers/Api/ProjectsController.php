@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProjectsController extends Controller {
+    // Voeg een nieuwe project toe
     public function create(Request $request) {
 
         $project = new Project;
@@ -47,6 +48,7 @@ class ProjectsController extends Controller {
         ]);
     }
 
+    // Updaten van je project
     public function update(Request $request){
         $project = Project::find($request->id);
         // check if user is editing his own project
@@ -69,16 +71,16 @@ class ProjectsController extends Controller {
             $project->photo = $project->photo;
         } elseif($request->photo == 'default') {
             // Als request default is verwijder oude foto en toon standaard plaatje            
-            if($request->oldPhoto != 'project.jpg') {
-                File::delete( public_path()."/projects/".$request->oldPhoto);
+            if($project->photo != 'project.jpg') {
+                File::delete( public_path()."/projects/".$project->photo);
             }
             $project->photo = "project.jpg";
         } else {
             // Upload een nieuwe foto en verwijder de oude
 
             //check if project has photo to delete
-            if($request->oldPhoto != 'project.jpg') {
-                File::delete( public_path()."/projects/".$request->oldPhoto);
+            if($project->photo != 'project.jpg') {
+                File::delete( public_path()."/projects/".$project->photo);
             }
             //choose a unique name for photo
             $photo = time().'.png';
@@ -100,6 +102,7 @@ class ProjectsController extends Controller {
         ]);
     }
 
+    // Project verwijderen
     public function delete(Request $request){
         $project = Project::find($request->id);
         // check if user is editing his own project
@@ -122,6 +125,7 @@ class ProjectsController extends Controller {
         ]);
     }
 
+    // Return alle projecten
     public function projects(){
         $projects = Project::orderBy('id','desc')->get();
         foreach($projects as $project){
@@ -135,6 +139,7 @@ class ProjectsController extends Controller {
         ]);
     }
 
+    // Return projecten van een ingelogde gebruiker
     public function myProjects(){
         $projects = Project::where('user_id',Auth::user()->id)->orderBy('id','desc')->get();
         $user = Auth::user();
