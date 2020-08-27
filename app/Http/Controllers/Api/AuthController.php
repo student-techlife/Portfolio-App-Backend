@@ -199,4 +199,13 @@ class AuthController extends Controller {
 
     }
 
+    public function changePassword(PasswordRequest $request) {
+        auth()->user()->update(['password' => Hash::make($request->get('password'))]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'password changed',
+        ]);
+    }
+
 }
