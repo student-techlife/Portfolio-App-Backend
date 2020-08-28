@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Je kan weer inloggen! Ga dus snel naar de Android app en probeer opnieuw in te loggen.
                 </div>
             </div>
         </div>

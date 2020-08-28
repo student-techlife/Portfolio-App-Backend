@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +12,6 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Laravel\Passport\Client;
 use Exception;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Image;
 use File;
 use DB;
@@ -35,21 +35,6 @@ class AuthController extends Controller {
         ]);
 
         return $this->issueToken($request, 'password');
-
-        // $creds = $request->only(['email','password']);
-
-        // if(!$token=auth()->attempt($creds)){
-            
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => 'invalid credintials'
-        //     ]);
-        // }
-        // return response()->json([
-        //     'success' =>true,
-        //     'token' => $token,
-        //     'user' => Auth::user()
-        // ]);
     }
 
     // Nieuwe gebruiker aanmaken
@@ -68,23 +53,6 @@ class AuthController extends Controller {
         ]);
 
         return $this->issueToken($request, 'password');
-        
-        // $encryptedPass = Hash::make($request->password);
-
-        // $user = new User;
-
-        // try{
-        //     $user->email = $request->email;
-        //     $user->password = $encryptedPass;
-        //     $user->save();
-        //     return $this->login($request);
-        // }
-        // catch(Exception $e){
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => ''.$e
-        //     ]);
-        // }
     }
 
     // Gebruiker gegevens updaten
@@ -145,20 +113,6 @@ class AuthController extends Controller {
         $accessToken->revoke();
 
         return response()->json([], 204);
-        
-        // try{
-        //     JWTAuth::invalidate(JWTAuth::parseToken($request->token));
-        //     return response()->json([
-        //         'success' => true,
-        //         'message' => 'logout success'
-        //     ]);
-        // }
-        // catch(Exception $e){
-        //     return response()->json([
-        //         'success' => false,
-        //         'message' => ''.$e
-        //     ]);
-        // }
     }
 
     // Gebruiker kan zijn eigen gebruikrs informatie ophalen
@@ -168,7 +122,7 @@ class AuthController extends Controller {
     }
 
     // this function saves user name,lastname and photo
-    public function saveUserInfo(Request $request){
+    public function saveUserInfo(Request $request) {
         $user = User::find(Auth::user()->id);
         $user->name = $request->name;
         $user->lastname = $request->lastname;
@@ -197,6 +151,15 @@ class AuthController extends Controller {
             'photo' => $photo
         ]);
 
+    }
+
+    public function changePassword(PasswordRequest $request) {
+        auth()->user()->update(['password' => Hash::make($request->get('password'))]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'password changed',
+        ]);
     }
 
 }

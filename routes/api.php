@@ -17,6 +17,7 @@ Route::middleware('auth:api')->group(function () {
     // User
     Route::post('save_user_info','Api\AuthController@saveUserInfo');
     Route::post('edit_user_info', 'Api\AuthController@update');
+    Route::post('change_password', 'Api\AuthController@changePassword');
     Route::post('logout','Api\AuthController@logout');
     Route::get('user', 'Api\AuthController@getUserInfo');
     

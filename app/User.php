@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Passport\HasApiTokens;
 use App\Comment;
 use App\Project;
-// use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable
 {
@@ -41,19 +40,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getJWTIdentifier(){
-        return $this->getKey();
-    }
-
-    public function getJWTCustomClaims(){
-        return [];
-    }
-
-    public function projects(){
+    public function projects() {
         return $this->hasMany(Project::class);
     }
 
-    public function comments(){
+    public function comments() {
         return $this->hasMany(Comment::class);
     }
 
